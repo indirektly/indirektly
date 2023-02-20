@@ -2,7 +2,7 @@
 base_url = "https://example.com/blog"
 
 # Used in RSS by default
-title = "Hermit Zola"
+title = "Indirekt"
 description = "My blog"
 # The default language, used in RSS
 default_language = "en"
@@ -62,7 +62,7 @@ extra_syntaxes = []
 # will be accessible in all templates
 [extra]
 
-home_subtitle = "Some profound and catchy statement"
+home_subtitle = "A place where I put my weekend projects"
 
 footer_copyright = ' &#183; <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a>'
 
@@ -72,9 +72,7 @@ hermit_menu = [
 ]
 
 hermit_social = [
-    { name = "twitter", link = "https://twitter.com" },
-    { name = "github", link = "https://github.com" },
-    { name = "email", link = "mailto:author@domain.com" }
+    { name = "github", link = "https://github.com/indirektly" }
 ]
 
 
@@ -97,7 +95,7 @@ shortname = "my-supa-dupa-blog"
 
 
 [extra.author]
-name = "The Author"
+name = "Indirekt"
 email = "author@domain.com"
 
 [extra.google_analytics]
