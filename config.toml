@@ -1,5 +1,5 @@
 # Base URL of the site, the only required config argument
-base_url = "https://indirektly.github.io/"
+base_url = "https://indirektly.github.io"
 
 # Used in RSS by default
 title = "Indirekt"
