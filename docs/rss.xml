@@ -2,17 +2,17 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
       <title>Indirekt</title>
-        <link>https://example.com/blog</link>
+        <link>https://indirektly.github.io</link>
         <description>My blog</description>
         <generator>Zola</generator>
         <language>en</language>
-        <atom:link href="https://example.com/blog/rss.xml" rel="self" type="application/rss+xml"/>
-        <lastBuildDate>Sat, 19 Feb 2022 00:00:00 +0000</lastBuildDate>
+        <atom:link href="https://indirektly.github.io/rss.xml" rel="self" type="application/rss+xml"/>
+        <lastBuildDate>Sun, 19 Feb 2023 00:00:00 +0000</lastBuildDate>
         <item>
             <title>Team R2R Torrent Malware</title>
-            <pubDate>Sat, 19 Feb 2022 00:00:00 +0000</pubDate>
-            <link>https://example.com/blog/posts/torrent-malware/</link>
-            <guid>https://example.com/blog/posts/torrent-malware/</guid>
+            <pubDate>Sun, 19 Feb 2023 00:00:00 +0000</pubDate>
+            <link>https://indirektly.github.io/posts/torrent-malware/</link>
+            <guid>https://indirektly.github.io/posts/torrent-malware/</guid>
             <description>&lt;p&gt;&lt;em&gt;&lt;strong&gt;Disclaimer: I do not condone pirating software, this was done out of research reasons and practice in learning to reverse malware.&lt;&#x2F;strong&gt;&lt;&#x2F;em&gt;&lt;&#x2F;p&gt;
 &lt;p&gt;&lt;br&gt;&lt;br&gt;&lt;&#x2F;p&gt;
 &lt;h2 id=&quot;premise&quot;&gt;Premise&lt;&#x2F;h2&gt;
@@ -188,7 +188,8 @@ public class qksbYX {
 &lt;p&gt;Finally, we see where the file is being downloaded:&lt;&#x2F;p&gt;
 &lt;pre&gt;&lt;code&gt;https:&amp;#x2F;&amp;#x2F;github.com&amp;#x2F;alibaba2044&amp;#x2F;1337L2&amp;#x2F;raw&amp;#x2F;main&amp;#x2F;wininfo64.zip
 &lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
-&lt;p&gt;Unfortanately, the file hosted on GitHub was not up, so we attempt to pivot to VirusTotal with the closest thing being &lt;a href=&quot;https:&#x2F;&#x2F;www.virustotal.com&#x2F;gui&#x2F;file&#x2F;2681a33478967ac0953785eac5f3b924c5159b6137ae96a619943c8dd1c8131b&quot;&gt;this&lt;&#x2F;a&gt;. There is already a good writeup about that file if it is indeed the next stage.https:&#x2F;&#x2F;blog.cluster25.duskrise.com&#x2F;2022&#x2F;12&#x2F;22&#x2F;an-infostealer-comes-to-town. (for those wondering about how I got to the VT link, it wasn&#x27;t just the name, it stemmed from VT&#x27;s relations feature, which linked the same account.)&lt;&#x2F;p&gt;
+&lt;p&gt;Unfortanately, the file hosted on GitHub was not up, so we attempt to pivot to VirusTotal with the closest thing being &lt;a href=&quot;https:&#x2F;&#x2F;www.virustotal.com&#x2F;gui&#x2F;file&#x2F;2681a33478967ac0953785eac5f3b924c5159b6137ae96a619943c8dd1c8131b&quot;&gt;this&lt;&#x2F;a&gt;. There is already a good writeup about that file if it is indeed the next stage. https:&#x2F;&#x2F;blog.cluster25.duskrise.com&#x2F;2022&#x2F;12&#x2F;22&#x2F;an-infostealer-comes-to-town. &lt;&#x2F;p&gt;
+&lt;p&gt;(for those wondering about how I got to the VT link, it wasn&#x27;t just the name, it stemmed from VT&#x27;s relations feature, which linked the same account.)&lt;&#x2F;p&gt;
 </description>
         </item>
     </channel>
