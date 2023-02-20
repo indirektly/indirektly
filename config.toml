@@ -1,6 +1,6 @@
 # Base URL of the site, the only required config argument
 base_url = "https://indirektly.github.io"
-
+output_dir = "docs"
 # Used in RSS by default
 title = "Indirekt"
 description = "My blog"
