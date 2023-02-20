@@ -2,17 +2,17 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
       <title>Indirekt</title>
-        <link>https://indirektly.github.io</link>
+        <link>https://indirekt.dev</link>
         <description>My blog</description>
         <generator>Zola</generator>
         <language>en</language>
-        <atom:link href="https://indirektly.github.io/rss.xml" rel="self" type="application/rss+xml"/>
+        <atom:link href="https://indirekt.dev/rss.xml" rel="self" type="application/rss+xml"/>
         <lastBuildDate>Sun, 19 Feb 2023 00:00:00 +0000</lastBuildDate>
         <item>
             <title>Team R2R Torrent Malware</title>
             <pubDate>Sun, 19 Feb 2023 00:00:00 +0000</pubDate>
-            <link>https://indirektly.github.io/posts/torrent-malware/</link>
-            <guid>https://indirektly.github.io/posts/torrent-malware/</guid>
+            <link>https://indirekt.dev/posts/torrent-malware/</link>
+            <guid>https://indirekt.dev/posts/torrent-malware/</guid>
             <description>&lt;p&gt;&lt;em&gt;&lt;strong&gt;Disclaimer: I do not condone pirating software, this was done out of research reasons and practice in learning to reverse malware.&lt;&#x2F;strong&gt;&lt;&#x2F;em&gt;&lt;&#x2F;p&gt;
 &lt;p&gt;&lt;br&gt;&lt;br&gt;&lt;&#x2F;p&gt;
 &lt;h2 id=&quot;premise&quot;&gt;Premise&lt;&#x2F;h2&gt;
