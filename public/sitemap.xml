@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+        <loc>https://example.com/blog/</loc>
+    </url>
+    <url>
+        <loc>https://example.com/blog/about/</loc>
+    </url>
+    <url>
+        <loc>https://example.com/blog/posts/</loc>
+    </url>
+    <url>
+        <loc>https://example.com/blog/posts/torrent-malware/</loc>
+        <lastmod>2022-02-19</lastmod>
+    </url>
+    <url>
+        <loc>https://example.com/blog/tags/</loc>
+    </url>
+    <url>
+        <loc>https://example.com/blog/tags/malware/</loc>
+    </url>
+</urlset>

